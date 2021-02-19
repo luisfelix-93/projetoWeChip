@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Início";
+}
+
+<div class="jumbotron">
+    <h1>Avaliação Prática Distância</h1>
+    <p class="lead">
+        A Loja de Informática WeChip possuía um sistema de créditos (em R$), que beneficiava clientes que compravam regularmente na loja. Esse sistema funcionou por muito tempo, mas agora, a loja decidiu encerrar este sistema.
+        Como não havia prazo de validade para gastar, ela decidiu ligar pra todos estes clientes para que eles possam gastar os créditos, agilizar assim o processo de encerramento desse sistema de bonificação.
+        Para isso, foi solicitado
+    </p>
+    <p>@Html.ActionLink("Cadastrar Ofertas", "Index", "Ofertas", null, new { @class = "btn btn-primary btn-lg" })</p>
+    
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Cadastro de Clientes</h2>
+        <p>
+          Aqui o operador consegue cadastrar o cliente com a suas informações, como nome, cadastro de pessoa física, telefone, etc...
+        </p>
+        <p>@Html.ActionLink("Cadastrar Clientes", "Index", "Clientes", null, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Produtos Disponíveis</h2>
+        <p>Aqui o operador consegue cadastrar os produtos a venda.</p>
+        <p>@Html.ActionLink("Produtos Disponíveis", "Index", "Produtos", null, new { @class = "btn btn-default" })</p>
+
+    </div>
+    
+    <div class="col-md-4">
+        <h2>Status do Cliente</h2>
+        <p>Aqui o operador consegue cadastrar o status do cliente.</p>
+        <p>@Html.ActionLink("Status do Cliente", "Index", "Status", null, new { @class = "btn btn-default" })</p>
+    </div>
+</div>

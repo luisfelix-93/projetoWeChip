@@ -1,0 +1,45 @@
+﻿@model IEnumerable<WeChip.Models.Status>
+
+@{
+    ViewBag.Title = "Status do Cliente";
+}
+
+<h2>Status do Cliente</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Status", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Status do Cliente")
+        </th>
+        <th>
+            @Html.DisplayName("Venda Finalizada")
+        </th>
+        <th>
+            @Html.DisplayName("Contabilizar Venda")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescricaoStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinalizaCliente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContabCliente)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.StatusId }) |
+            @Html.ActionLink("Detalhes", "Details", new { id=item.StatusId }) |
+            @Html.ActionLink("Deletar", "Delete", new { id=item.StatusId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,128 @@
+﻿<!-- Objeto Principal da View -->
+@model WeChip.Models.Cliente
+
+@{
+    ViewBag.Title = "Ofertas";
+}
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+<!-- ViewBag.Msg é utilizada pela controller para exibir mensagens de qualquer tipo para o usuario  -->
+@if (!string.IsNullOrEmpty(ViewBag.Msg))
+{
+    <script type="text/javascript" charset="utf-8"> alert("@ViewBag.Msg"); </script>
+
+}
+
+<!-- Parte do Formulario contendo tudo que é necessario para enviar o campo Nome/CPF para a controller pesquisar esse nome/cpf e atulizar os campos -->
+<h2>Ofertas</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Cliente</h4>
+        <hr />
+        <div class="form-group">
+            @Html.Label("Nome ou CPF", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Pesquisar" class="btn btn-default" />
+                @Html.ActionLink("Limpar", "Index", "Ofertas", htmlAttributes: new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+<hr />
+
+@if (Model.IdCliente == 0 && !(String.IsNullOrEmpty(Model.Nome)))
+{
+    <h2 class="text-danger">Nenhum Cliente foi encontrado com esse nome ou cpf. Tente novamente, por favor.</h2>
+}
+
+<!-- Parte de dados relacionados sendo exibida numa partial view do tipo Detalhes utilizando o mesmo Objeto com os mesmos dados-->
+<h2>Dados Relacionados:</h2>
+@Html.Partial("_EncontraCliente")
+
+<!-- Só exibe a parte de produtos caso seja encontrado um cliente valido para que a oferta possa ser associada --->
+@if (Model.IdCliente != 0)
+{
+    <h2>Produtos:</h2>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Descrição Produto")
+            </th>
+            <th>
+                @Html.Label("Preço")
+            </th>
+            <th>
+                @Html.Label("Tipo")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.ListaProdutos)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescricaoProduto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Preco)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @if (item.Selecionado == false)
+                    {
+                        @Html.ActionLink("Selecionar", "Selecionar", new { id = item.IdProduto, idCliente = Model.IdCliente, lista = Json.Encode(Model.ListaProdutos) })
+                    }
+                    else
+                    {
+                        @Html.Label("Selecionado")
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <!--Parte final que exibe a view bag comm o valor calculado a cada vez que foi selecionado um produto para a oferta-->
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Label("Valor Total de Produtos")
+        </dt>
+
+        <dd>
+            R$@ViewBag.Total
+        </dd>
+    </dl>
+    <hr />
+
+    <!-- Validando a exibição do botão de realizar a Oferta
+        Só vai ser exibido o botão em caso de existir produtos na lista  de produtos do Cliente-->
+    if (Model.ListaProdutos.Count != 0)
+    {
+        @Html.ActionLink("Ofertar", "OfertarCliente", new
+        {
+                                idStatus = Model.IdStatus,
+                                idProduto = Model.ListaProdutos.FirstOrDefault().IdProduto,
+                                CPF = Model.Cpf,
+                                Valor = ViewBag.Total,
+                                Credito = Model.Credito
+        },
+        htmlAttributes: new { @class = "btn btn-default" })
+    }
+
+}
+

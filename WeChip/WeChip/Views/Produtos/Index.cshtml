@@ -1,0 +1,45 @@
+﻿@model IEnumerable<WeChip.Models.Produto>
+
+@{
+    ViewBag.Title = "Produtos";
+}
+
+<h2>Produtos a Venda</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Protudo", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Produto")
+        </th>
+        <th>
+            @Html.DisplayName("Preço")
+        </th>
+        <th>
+            @Html.DisplayName("Tipo")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescricaoProduto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Preco)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tipo)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.IdProduto }) |
+            @Html.ActionLink("Detalhes", "Details", new { id=item.IdProduto }) |
+            @Html.ActionLink("Deletar", "Delete", new { id=item.IdProduto })
+        </td>
+    </tr>
+}
+
+</table>
